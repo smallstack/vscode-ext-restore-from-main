@@ -2,9 +2,9 @@
 An very tiny vscode extension that allows users to revert a selected file from main branch.
 
 ## Installation
-Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/) by searching for "vscode-ext-restore-from-main" or use:
+Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/) by searching for "restore-from-main" or use:
 ```
-code --install-extension smallstack.vscode-ext-restore-from-main
+code --install-extension smallstack.restore-from-main
 ```
 
 ## Development & Contributing
