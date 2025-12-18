@@ -1,5 +1,5 @@
-# vscode-ext-restore-from-main
-An very tiny vscode extension that allows users to revert a selected file from main branch.
+# Restore from main VSCode extension
+An very tiny vscode extension that allows users to revert a selected file from main branch. It just does `git restore --source=main "${filePath}"`.
 
 ## Installation
 Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/) by searching for "restore-from-main" or use:
