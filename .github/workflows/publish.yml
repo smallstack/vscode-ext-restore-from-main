@@ -1,0 +1,46 @@
+name: Publish Extension
+
+# Publishes the extension to the Open VSX Registry (used by VSCodium and other
+# open-source VS Code forks) and, when a token is configured, to the Microsoft
+# VS Code Marketplace.
+#
+# Trigger by publishing a GitHub Release, or run manually from the Actions tab.
+#
+# Required repository secrets:
+#   OVSX_PAT  - Open VSX access token (https://open-vsx.org) -> mandatory for VSCodium
+#   VSCE_PAT  - VS Code Marketplace personal access token    -> optional
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile
+        run: npm run compile
+
+      - name: Package extension
+        run: npm run package
+
+      - name: Publish to Open VSX (VSCodium marketplace)
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: npx ovsx publish restore-from-main.vsix --no-dependencies -p "$OVSX_PAT"
+
+      - name: Publish to VS Code Marketplace
+        if: ${{ secrets.VSCE_PAT != '' }}
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: npx vsce publish --no-dependencies --packagePath restore-from-main.vsix -p "$VSCE_PAT"
